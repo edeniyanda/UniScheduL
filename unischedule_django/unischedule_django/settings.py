@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +26,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@pfe@0adm=9$d&bng+yx@ec8a%=9p762-m=3-)2scg85u2$q6o'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -81,16 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'unischedule_django.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 ADMIN_SITE_HEADER = "UniScheduL administration"
@@ -152,3 +141,36 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+if DEBUG:
+    # Database
+    # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+    STATIC_URL = 'static/'
+else: 
+    # Replace the SQLite DATABASES configuration with PostgreSQL:
+    DATABASES = {
+        'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/mysite', 
+                                          conn_max_age=600    
+        )
+    }
+
+    # Configure the database connection to use PostgreSQL
+    MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
+    
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
