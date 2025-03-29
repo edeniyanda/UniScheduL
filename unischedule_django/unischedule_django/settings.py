@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@pfe@0adm=9$d&bng+yx@ec8a%=9p762-m=3-)2scg85u2$q6o'
 
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -145,6 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 if DEBUG:
+    ALLOWED_HOSTS = []
     # Database
     # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
