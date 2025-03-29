@@ -143,7 +143,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 if DEBUG:
     # Database
     # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -160,11 +160,10 @@ if DEBUG:
 
     STATIC_URL = 'static/'
 else: 
+    ALLOWED_HOSTS = ["*"]
     # Replace the SQLite DATABASES configuration with PostgreSQL:
     DATABASES = {
-        'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/mysite', 
-                                          conn_max_age=600    
-        )
+        'default': dj_database_url.config(default='postgresql://usl_db_user:mKMDRKQQb9e7q9XuxmOt4fqFPIrhP5In@dpg-cvjbvieuk2gs73a1pd30-a.oregon-postgres.render.com/usl_db')
     }
 
     # Configure the database connection to use PostgreSQL
