@@ -132,11 +132,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -159,7 +154,7 @@ if DEBUG:
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-    STATIC_URL = 'static/'
+    STATIC_URL = '/static/'
 else: 
     ALLOWED_HOSTS = ["*"]
     # Replace the SQLite DATABASES configuration with PostgreSQL:
@@ -169,6 +164,8 @@ else:
 
     # Configure the database connection to use PostgreSQL
     MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
+
+    STATIC_URL = '/static/'
     
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
