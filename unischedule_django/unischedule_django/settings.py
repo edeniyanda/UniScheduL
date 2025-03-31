@@ -213,7 +213,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",  # Vite dev server
-    "https://unischedul.vercel.app/",  # Vercel production
+    "https://unischedul.vercel.app",  # Vercel production
 ]
 
 ROOT_URLCONF = 'unischedule_django.urls'
