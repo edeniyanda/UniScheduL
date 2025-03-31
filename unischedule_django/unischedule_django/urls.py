@@ -7,6 +7,9 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
+    path("", views.index, name="index"),
+    path("api/", views.api_index, name="api_index"),
+
     path('admin/', admin.site.urls),
 
     # Signup

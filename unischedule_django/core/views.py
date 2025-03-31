@@ -28,6 +28,13 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
+def index(request):
+    return Response({"message": "Welcome to the UniSchedule API!"})
+
+def api_index(request):
+    return Response({"message": "API _ Welcome to the UniSchedule API!"})
+
+
 # Signup API
 @api_view(['POST'])
 def signup(request):
