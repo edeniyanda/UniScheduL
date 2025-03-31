@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import authFetch  from "../../utils/authFetch"; 
+import API_BASE_URL  from "../../api";
 
 export default function ManageRooms() {
   const [rooms, setRooms] = useState([]);
   const [formData, setFormData] = useState({ id: "", name: "", capacity: "" });
   const [isEditing, setIsEditing] = useState(false);
 
-  const API_BASE_URL = "http://127.0.0.1:8000/api";
 
   const fetchRooms = async () => {
     try {

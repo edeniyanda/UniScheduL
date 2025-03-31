@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; 
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import API_BASE_URL from "../../api";
 import {
   BookOpenIcon,
   UserIcon,
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
   const fetchDashboardStats = async () => {
     const token = localStorage.getItem("access");
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/dashboard-stats", {
+      const res = await fetch(`${API_BASE_URL}/dashboard-stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +50,7 @@ export default function AdminDashboard() {
   const fetchRecentLogs = async () => {
     const token = localStorage.getItem("access");
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/recent-logs", {
+      const res = await fetch(`${API_BASE_URL}/recent-logs`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

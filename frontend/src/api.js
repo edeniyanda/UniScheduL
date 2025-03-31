@@ -1,6 +1,6 @@
 import authFetch from "./utils/authFetch";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 // 🔍 Lecturers
 export const fetchLecturers = async () => {
@@ -73,3 +73,5 @@ export const fetchTimeSlots = async () => {
     return [];
   }
 };
+
+export default API_BASE_URL;

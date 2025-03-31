@@ -3,6 +3,7 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners"; // Import spinner
 import infinityGif from '../../assets/infinity.gif';
 import authFetch from "../../utils/authFetch";
+import API_BASE_URL from "../../api";
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const HOURS = ["08:00","09:00","10:00","11:00","12:00",
@@ -49,7 +50,7 @@ export default function OptimizedSchedule() {
     const startTime = Date.now(); // Record the start time
   
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/run-algorithm");
+      const data = await authFetch(`${API_BASE_URL}/run-algorithm`);
   
       // Ensure at least 15 seconds before updating the state
       const elapsedTime = Date.now() - startTime;
@@ -81,7 +82,7 @@ export default function OptimizedSchedule() {
     const token = localStorage.getItem("access") || sessionStorage.getItem("access");
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/export-file",
+      `${API_BASE_URL}/export-file`,
       {
         format,
         semester: "Fall 2025",

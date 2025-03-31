@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_BASE_URL from "../../api"; // Adjust the import based on your project structure
 
 export default function GeneratePDF() {
   const [semester, setSemester] = useState("");
@@ -15,7 +16,7 @@ export default function GeneratePDF() {
   const generatePDF = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/generate-pdf", {
+      const res = await fetch(`${API_BASE_URL}/generate-pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

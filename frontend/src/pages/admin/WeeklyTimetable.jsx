@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import authFetch from "../../utils/authFetch";
+import API_BASE_URL from "../../api"; 
 
 export default function WeeklyTimetable() {
   const [timeSlots, setTimeSlots] = useState([]);
@@ -15,7 +16,7 @@ export default function WeeklyTimetable() {
   
   const fetchTimetable = async () => {
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/timeslots");
+      const data = await authFetch(`${API_BASE_URL}/timeslots`);
       setTimeSlots(data);
     } catch (err) {
       console.error("Error loading timetable:", err);

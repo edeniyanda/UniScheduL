@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import authFetch from "../../utils/authFetch";
+import API_BASE_URL  from "../../api";
 
 export default function ManageCourses() {
   const [courses, setCourses] = useState([]);
@@ -23,7 +24,7 @@ export default function ManageCourses() {
 
   const fetchCourses = async () => {
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/courses");
+      const data = await authFetch(`${API_BASE_URL}/courses`);
 
       if (Array.isArray(data)) {
         setCourses(data);
@@ -39,7 +40,7 @@ export default function ManageCourses() {
 
   const fetchLecturers = async () => {
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/lecturers");
+      const data = await authFetch(`${API_BASE_URL}/lecturers`);
       setLecturers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Lecturer fetch error:", err);
@@ -58,9 +59,9 @@ export default function ManageCourses() {
     e.preventDefault();
     const method = isEditing ? "PUT" : "POST";
     const url = isEditing
-      ? `http://127.0.0.1:8000/api/courses/${formData.id}`
-      : "http://127.0.0.1:8000/api/courses";
-  
+    ? `${API_BASE_URL}/courses/${formData.id}`
+    : `${API_BASE_URL}/courses`;
+
     const payload = {
       ...formData,
       lecturer: formData.lecturer_id,
@@ -91,7 +92,7 @@ export default function ManageCourses() {
 
   // Delete Course
   const handleDelete = async (id) => {
-    await authFetch(`http://127.0.0.1:8000/api/courses/${id}`, {
+    await authFetch(`${API_BASE_URL}/courses/${id}`, {
       method: "DELETE",
     });
     fetchCourses();

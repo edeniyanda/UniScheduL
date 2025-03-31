@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import authFetch from "../../utils/authFetch"; // ✅ imported
+import API_BASE_URL  from "../../api"; // ✅ imported
 
 export default function ManageTimeSlots() {
   const [timeSlots, setTimeSlots] = useState([]);
@@ -27,7 +28,7 @@ export default function ManageTimeSlots() {
   // ✅ Fetch time slots using authFetch
   const fetchTimeSlots = async () => {
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/timeslots");
+      const data = await authFetch(`${API_BASE_URL}/timeslots`);
       setTimeSlots(data);
       setFilteredSlots(selectedCourse
         ? data.filter((slot) => slot.course_id === selectedCourse)
@@ -41,7 +42,7 @@ export default function ManageTimeSlots() {
   // ✅ Fetch courses using authFetch
   const fetchCourses = async () => {
     try {
-      const data = await authFetch("http://127.0.0.1:8000/api/courses");
+      const data = await authFetch(`${API_BASE_URL}/courses`);
       setCourses(data);
     } catch (err) {
       console.error("Error fetching courses:", err);
@@ -63,8 +64,8 @@ export default function ManageTimeSlots() {
     e.preventDefault();
     const method = isEditing ? "PUT" : "POST";
     const url = isEditing
-      ? `http://127.0.0.1:8000/api/timeslots/${editingId}`
-      : "http://127.0.0.1:8000/api/timeslots";
+    ? `${API_BASE_URL}/timeslots/${editingId}`
+    : `${API_BASE_URL}/timeslots`;
   
     const payload = {
       ...formData,
@@ -113,7 +114,7 @@ export default function ManageTimeSlots() {
 
   const handleDelete = async (id) => {
     try {
-      await authFetch(`http://127.0.0.1:8000/api/timeslots/${id}`, {
+      await authFetch(`${API_BASE_URL}/timeslots/${id}`, {
         method: "DELETE",
       });
       fetchTimeSlots();
