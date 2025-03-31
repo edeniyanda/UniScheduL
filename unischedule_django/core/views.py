@@ -8,7 +8,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 from rest_framework import status
+
 from .models import Lecturer, Room, Course, TimeSlot, Institution
 from .serializers import LecturerSerializer, RoomSerializer, CourseSerializer, TimeSlotSerializer
 from .scheduler import auto_schedule_courses
@@ -28,12 +30,15 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
+# Regular HTTP view (optional, if used for homepage or health check)
+@api_view(['GET'])
 def index(request):
-    return Response({"message": "Welcome to the UniSchedule API!"})
+    return HttpResponse("Welcome to the UniSchedule API!")
 
+# API-specific welcome message
+@api_view(['GET'])
 def api_index(request):
     return Response({"message": "API _ Welcome to the UniSchedule API!"})
-
 
 # Signup API
 @api_view(['POST'])
