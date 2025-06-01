@@ -1,6 +1,8 @@
 from algoclass.examroom import ExamRoom
 from algoclass.examcourse import ExamCourse
-from algoclass.examslot import ExamTimeSlot
+from algoclass.examtimeslot import ExamTimeSlot
+from algoclass.exambooking import ExamBooking
+from datetime import datetime
 
 room_data = [
     {"Venue": "LR16", "Current Seating": 60},
@@ -139,3 +141,44 @@ print(courses)
 
 
 
+def schedule_exams(courses, rooms, time_slots):
+    bookings = []
+    failed = []
+    used_slots = {}  # (room_name, slot_id) => occupied
+
+    for course in courses:
+        scheduled = False
+        for slot in time_slots:
+            # Check if slot duration matches course
+            slot_duration = (
+                datetime.strptime(slot.end_time, "%H:%M") -
+                datetime.strptime(slot.start_time, "%H:%M")
+            ).seconds / 3600
+
+            if slot_duration != course.duration_hours:
+                continue  # skip mismatched slots
+
+            # Try each room
+            for room in rooms:
+                if room.capacity >= course.num_students and (room.name, slot.slot_id) not in used_slots:
+                    bookings.append(ExamBooking(course, room, slot))
+                    used_slots[(room.name, slot.slot_id)] = True
+                    scheduled = True
+                    break
+            if scheduled:
+                break
+
+        if not scheduled:
+            failed.append(course)
+
+    return bookings, failed
+
+
+bookings, failed = schedule_exams(courses, rooms, available_time_slot)
+
+for b in bookings:
+    print(b)
+
+print("\n❌ Failed to schedule:")
+for f in failed:
+    print(f"{f.code} ({f.num_students} students, {f.duration_hours}hr)")
