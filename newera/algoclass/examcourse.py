@@ -14,6 +14,12 @@ class ExamCourse:
         self.departments = departments
         self.num_students = num_students
         self.duration_hours = duration_hours
+        self.level = self.extract_level()
+
+    def extract_level(self):
+        # Extract first digit of numeric portion in the code (e.g., 512 → 500 level)
+        digits = ''.join(filter(str.isdigit, self.code))
+        return int(digits[0]) * 100 if digits else 0
 
     def __repr__(self):
         return (

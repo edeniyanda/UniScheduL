@@ -141,40 +141,57 @@ courses = load_exam_courses(course_data)
 print(len(courses), "courses loaded")
 
 
-
+def times_overlap(start1, end1, start2, end2):
+    """Check if two time ranges [start1, end1) and [start2, end2) overlap."""
+    return not (end1 <= start2 or start1 >= end2)
 
 def schedule_exams(courses, rooms, time_slots):
     bookings = []
     failed = []
-    used_slots = {}  # (room_name, slot_id) => occupied
+    used_slots = {}      # (room_name, slot_id) => True
+    level_slot_map = {}  # (level, slot_id) => True
 
     for course in courses:
         scheduled = False
         for slot in time_slots:
-            # Check if slot duration matches course
+            # 🕒 Match slot duration
             slot_duration = (
                 datetime.strptime(slot.end_time, "%H:%M") -
                 datetime.strptime(slot.start_time, "%H:%M")
             ).seconds / 3600
 
             if slot_duration != course.duration_hours:
-                continue  # skip mismatched slots
+                continue
 
-            # Try each room
+            # ❌ Prevent same-level time overlaps (not just slot ID)
+            level_conflict = False
+            for (lvl, s_id) in level_slot_map:
+                if lvl != course.level:
+                    continue
+                existing_slot = next((s for s in time_slots if s.slot_id == s_id), None)
+                if existing_slot and existing_slot.week == slot.week and existing_slot.day == slot.day:
+                    if times_overlap(existing_slot.start_time, existing_slot.end_time, slot.start_time, slot.end_time):
+                        level_conflict = True
+                        break
+            if level_conflict:
+                continue
+
+            # ✅ Try available rooms
             for room in rooms:
                 if room.capacity >= course.num_students and (room.name, slot.slot_id) not in used_slots:
                     bookings.append(ExamBooking(course, room, slot))
                     used_slots[(room.name, slot.slot_id)] = True
+                    level_slot_map[(course.level, slot.slot_id)] = True
                     scheduled = True
-                    break
+                    break  # stop searching for rooms
+
             if scheduled:
-                break
+                break  # stop searching for time slots
 
         if not scheduled:
             failed.append(course)
 
     return bookings, failed
-
 
 bookings, failed = schedule_exams(courses, rooms, available_time_slot)
 
@@ -182,9 +199,6 @@ bookings, failed = schedule_exams(courses, rooms, available_time_slot)
 print(len(bookings), "exams scheduled successfully")
 print(len(failed), "exams failed to schedule")
 
-print("\n❌ Failed to schedule:")
-for f in failed:
-    print(f"{f.code} ({f.num_students} students, {f.duration_hours}hr)")
 
 day_order = {
     "Monday": 1,
@@ -205,3 +219,6 @@ for b in sorted_bookings:
     print(b)
 
 
+print("\n❌ Failed to schedule:")
+for f in failed:
+    print(f"{f.code} ({f.num_students} students, {f.duration_hours}hr)")
