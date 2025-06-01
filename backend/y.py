@@ -1,4 +1,6 @@
+
 def plus1(x):
+    global x 
     x+=1
     print("Done")
 

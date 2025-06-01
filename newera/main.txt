@@ -1,0 +1,54 @@
+| Course Code           | Course Title                                                   | Departments Offering | Number of Students | Required Number of Hours |
+| --------------------- | -------------------------------------------------------------- | -------------------- | ------------------ | ------------------------ |
+| GST 212               | Peace and Conflict Resolution                                  | EEE & MCE            | 23                 | 1                        |
+| LCU-CCS 211           | Character Code and Service                                     | EEE & MCE            | 23                 | 1                        |
+| LCU-AST 211           | Agriculture Society and Technology                             | EEE & MCE            | 23                 | 1                        |
+| GET 212               | Student Workshop Practice                                      | EEE & MCE            | 23                 | 3                        |
+| GET 216               | Fundamental of Thermodynamics                                  | EEE & MCE            | 23                 | 3                        |
+| GET 210               | Engineering Mathematics II                                     | EEE & MCE            | 23                 | 3                        |
+| EEE 212               | Applied Electricity II                                         | EEE & MCE            | 23                 | 3                        |
+| LCU-EEE 211           | Skill Acquisition in Electrical Wiring Design and Installation | EEE & MCE            | 23                 | 1                        |
+| LCU-EEE 213           | Skill Acquisition in Computer Network Design and Installation  | EEE & MCE            | 23                 | 2                        |
+| EEE 214               | Electrical Engineering Materials                               | EEE & MCE            | 23                 | 3                        |
+| LCU-ICT 311           | Information Technology III                                     | EEE                  | 31                 | 2                        |
+| LCU-CCS 311           | Character Code and Service                                     | EEE                  | 31                 | 1                        |
+| FET 316               | Engineering Mathematics II                                     | EEE                  | 31                 | 3                        |
+| EEE 311               | Digital Electronic Circuits                                    | EEE                  | 31                 | 3                        |
+| EEE 312               | Circuit Theory II                                              | EEE                  | 31                 | 3                        |
+| EEE 313               | Computer Aided Design                                          | EEE                  | 31                 | 3                        |
+| EEE 315               | Electromechanical Devices and Machines II                      | EEE                  | 31                 | 3                        |
+| EEE 316               | Measurements and Instrumentation                               | EEE                  | 31                 | 3                        |
+| FET 511               | Engineering Law                                                | EEE                  | 15                 | 2                        |
+| GST 411 / LCU-PCC 411 | Poise, Customer Service and Communication Skills               | EEE                  | 15                 | 1                        |
+| LCU-CCS 511           | Character Code and Service                                     | EEE                  | 15                 | 1                        |
+| EEE 511               | Microcontroller Applications & Embedded Systems                | EEE                  | 15                 | 3                        |
+| EEE 512               | Modern Control Engineering                                     | EEE                  | 15                 | 3                        |
+| EEE 513               | Power Electronics and Devices                                  | EEE                  | 15                 | 3                        |
+| EEE 514               | Use of Engr. Software Packages                                 | EEE                  | 15                 | 3                        |
+| EEE 534               | Power Systems Engineering                                      | EEE                  | 15                 | 3                        |
+| EEE 536               | Renewable Energy Systems                                       | EEE                  | 15                 | 3                        |
+
+
+| Level     | EEE     | MCE    | EEE & MCE | Total   |
+| --------- | ------- | ------ | --------- | ------- |
+| 100       | 32      | 25     | 57        | 57      |
+| 200       | 19      | 4      | 23        | 23      |
+| 300       | 31      | 0      | 31        | 31      |
+| 400       | 11      | 0      | 11        | 11      |
+| 500       | 15      | 0      | 15        | 15      |
+| **Total** | **108** | **29** | **137**   | **137** |
+
+
+| Venue    | Current Seating |
+| -------- | --------------- |
+| LR16     | 60              |
+| EEE CR 1 | 27              |
+| EEE CR 2 | 41              |
+
+
+
+
+| Day         | Time Slots               |
+| ----------- | ------------------------ |
+| Mon – Thurs | 9 am – 12 Noon, 1 – 4 pm |
+| Friday      | 9 am – 12 Noon, 2 – 4 pm |
