@@ -134,10 +134,12 @@ def load_exam_courses(data_rows):
 
 
 rooms = load_exam_rooms(room_data)
-print(rooms)
+
 
 courses = load_exam_courses(course_data)
-print(courses)
+
+print(len(courses), "courses loaded")
+
 
 
 
@@ -176,9 +178,30 @@ def schedule_exams(courses, rooms, time_slots):
 
 bookings, failed = schedule_exams(courses, rooms, available_time_slot)
 
-for b in bookings:
-    print(b)
+
+print(len(bookings), "exams scheduled successfully")
+print(len(failed), "exams failed to schedule")
 
 print("\n❌ Failed to schedule:")
 for f in failed:
     print(f"{f.code} ({f.num_students} students, {f.duration_hours}hr)")
+
+day_order = {
+    "Monday": 1,
+    "Tuesday": 2,
+    "Wednesday": 3,
+    "Thursday": 4,
+    "Friday": 5
+}
+
+def sort_bookings(bookings):
+    return sorted(
+        bookings,
+        key=lambda b: (b.time_slot.week, day_order[b.time_slot.day], b.time_slot.start_time)
+    )
+
+sorted_bookings = sort_bookings(bookings)
+for b in sorted_bookings:
+    print(b)
+
+
