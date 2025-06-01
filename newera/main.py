@@ -11,6 +11,16 @@ room_data = [
 ]
 
 course_data = [
+    {"Course Code": "CHM 111", "Course Title": "General Chemistry II", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 2},
+    {"Course Code": "PHY 117", "Course Title": "General Physics Laboratory II", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 1},
+    {"Course Code": "CHM 117", "Course Title": "General Chemistry Lab 2", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 1},
+    {"Course Code": "GST 115", "Course Title": "Nigerian People and Culture", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 1},
+    {"Course Code": "MTH 113", "Course Title": "Elementary Mathematics II (Calculus)", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 3},
+    {"Course Code": "GET 112", "Course Title": "Engineering Graphic and Solid Modelling", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 2},
+    {"Course Code": "PHY 111", "Course Title": "General Physics II (Electricity and Magnetism)", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 3},
+    {"Course Code": "PHY 113", "Course Title": "General Physics IV (Vibration, Waves and Optics)", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 3},
+    {"Course Code": "LCU-MCE 112", "Course Title": "Probability I", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 3},
+    {"Course Code": "LCU-CCS 111", "Course Title": "Character Code and Service", "Departments Offering": "EEE & MCE", "Number of Students": 57, "Required Number of Hours": 1},
     {"Course Code": "GST 212", "Course Title": "Peace and Conflict Resolution", "Departments Offering": "EEE & MCE", "Number of Students": 23, "Required Number of Hours": 1},
     {"Course Code": "LCU-CCS 211", "Course Title": "Character Code and Service", "Departments Offering": "EEE & MCE", "Number of Students": 23, "Required Number of Hours": 1},
     {"Course Code": "LCU-AST 211", "Course Title": "Agriculture Society and Technology", "Departments Offering": "EEE & MCE", "Number of Students": 23, "Required Number of Hours": 1},
@@ -141,6 +151,7 @@ courses = load_exam_courses(course_data)
 print(len(courses), "courses loaded")
 
 
+
 def times_overlap(start1, end1, start2, end2):
     """Check if two time ranges [start1, end1) and [start2, end2) overlap."""
     return not (end1 <= start2 or start1 >= end2)
@@ -148,13 +159,16 @@ def times_overlap(start1, end1, start2, end2):
 def schedule_exams(courses, rooms, time_slots):
     bookings = []
     failed = []
-    used_slots = {}      # (room_name, slot_id) => True
-    level_slot_map = {}  # (level, slot_id) => True
+
+    used_slots = {}       # (room_name, slot_id) => True
+    level_slot_map = {}   # (level, slot_id) => True
+    room_slot_map = {}    # room_name => list of booked time slots
 
     for course in courses:
         scheduled = False
+
         for slot in time_slots:
-            # 🕒 Match slot duration
+            # 🕒 Match duration
             slot_duration = (
                 datetime.strptime(slot.end_time, "%H:%M") -
                 datetime.strptime(slot.start_time, "%H:%M")
@@ -163,7 +177,7 @@ def schedule_exams(courses, rooms, time_slots):
             if slot_duration != course.duration_hours:
                 continue
 
-            # ❌ Prevent same-level time overlaps (not just slot ID)
+            # ❌ Avoid same-level time overlaps
             level_conflict = False
             for (lvl, s_id) in level_slot_map:
                 if lvl != course.level:
@@ -176,17 +190,31 @@ def schedule_exams(courses, rooms, time_slots):
             if level_conflict:
                 continue
 
-            # ✅ Try available rooms
+            # ✅ Try rooms
             for room in rooms:
-                if room.capacity >= course.num_students and (room.name, slot.slot_id) not in used_slots:
-                    bookings.append(ExamBooking(course, room, slot))
-                    used_slots[(room.name, slot.slot_id)] = True
-                    level_slot_map[(course.level, slot.slot_id)] = True
-                    scheduled = True
-                    break  # stop searching for rooms
+                if room.capacity < course.num_students:
+                    continue
+
+                # ❌ Prevent overlapping use of the same room
+                room_conflict = False
+                for existing_slot in room_slot_map.get(room.name, []):
+                    if existing_slot.week == slot.week and existing_slot.day == slot.day:
+                        if times_overlap(existing_slot.start_time, existing_slot.end_time, slot.start_time, slot.end_time):
+                            room_conflict = True
+                            break
+                if room_conflict:
+                    continue
+
+                # ✅ All checks passed — schedule it
+                bookings.append(ExamBooking(course, room, slot))
+                used_slots[(room.name, slot.slot_id)] = True
+                level_slot_map[(course.level, slot.slot_id)] = True
+                room_slot_map.setdefault(room.name, []).append(slot)
+                scheduled = True
+                break  # stop trying rooms
 
             if scheduled:
-                break  # stop searching for time slots
+                break  # stop trying slots
 
         if not scheduled:
             failed.append(course)
